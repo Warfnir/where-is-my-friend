@@ -13,18 +13,21 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import json
 
-with open('../credentials.json') as file:
-    CREDENTIALS = json.load(file)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+# CREDENTIALS
+with open(os.path.join(os.path.dirname(BASE_DIR), 'credentials.json')) as file:
+    CREDENTIALS = json.load(file)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'c^(o#)0r-zl(t_bmd_!f%e5s58^#xs6h3jrb53&w-*0ml9+!9m'
+SECRET_KEY = 'c^(o#)0r-zl(t_bmd_!f%e5s58^#xs6h3jrb53&w-*0ml9+!9c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
