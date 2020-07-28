@@ -1,1 +1,46 @@
 {% extends 'animal_finder/base.html' %}
+
+
+{% block index %}
+<!-- HEADER -->
+<header class="header">
+    <div class="container">
+        <h1>Animal Finder</h1>
+        <p>App for looking for your lost friend.</p>
+    </div>
+</header>
+
+<!-- NAVBAR -->
+<nav class="nav">
+    <div class="container">
+        <ul>
+            <li><a href="#home">Logo</a></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#board">Board</a></li>
+            <li><a href="#mysite">MySite</a></li>
+            <li><button onclick="openLoginWindow()">Login</button></li>
+        </ul>
+    </div>
+</nav>
+
+
+<!-- MAIN CONTENT -->
+{% block main %}
+{% endblock %}
+{% lorem 10 p %}
+
+{% include 'animal_finder/login_form.html' %}
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <ul>
+            <li><a href="#home">Logo</a></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#board">Board</a></li>
+            <li><a href="#mysite">MySite</a></li>
+        </ul>
+    </div>
+</footer>
+
+{% endblock %}
