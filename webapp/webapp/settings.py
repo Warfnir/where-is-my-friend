@@ -22,6 +22,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 with open(os.path.join(os.path.dirname(BASE_DIR), 'credentials.json')) as file:
     CREDENTIALS = json.load(file)
 
+with open(os.path.join(os.path.dirname(BASE_DIR), 'client_secret.json')) as file:
+    GOOGLE_CREDENTIALS = json.load(file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -135,3 +137,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_collect')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+AUTH_USER_MODEL = 'animal_finder.MyUser'
