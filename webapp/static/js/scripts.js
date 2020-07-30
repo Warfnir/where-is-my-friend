@@ -47,43 +47,43 @@ function onSignIn(googleUser) {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('X-CSRFToken', csrf_token)
     xhr.onload = function () {
-        console.log('Signed in as: ' + xhr.responseText);
+        console.log(xhr.responseText, xhr.status);
+        // window.location.reload()
     };
     xhr.send('idtoken=' + id_token);
 }
 
 
-function loginWithGoogle(googleUser) {
-    auth2.grantOfflineAccess().then(loginWithGoogleCallback)
-}
-
-
-function loginWithGoogleCallback(authResult) {
-    if (authResult['code']) {
-        csrf_token = jQuery("[name=csrfmiddlewaretoken]").val()
-        // Send the code to the server
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8000/google_login/',
-            // Always include an `X-Requested-With` header in every AJAX request,
-            // to protect against CSRF attacks.
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': csrf_token,
-            },
-            ContentType: 'application/octet-stream; charset=utf-8',
-            success: function (result) {
-                // Handle or verify the server response.
-            },
-            processData: false,
-            data: authResult['code']
+var googleUser = {}
+var startApp = function () {
+    gapi.load('auth2', function () {
+        // Retrieve the singleton for the GoogleAuth library and set up the client.
+        auth2 = gapi.auth2.init({
+            client_id: '931998872424-krno4hbjj52c73v9d4t2k35qma4rhh3b.apps.googleusercontent.com',
+            cookiepolicy: 'single_host_origin',
+            // Request scopes in addition to 'profile' and 'email'
+            //scope: 'additional_scope'
         });
-    } else {
-        // There was an error.
-    }
+        attachSignin(document.getElementById('customBtn'))
+    });
+};
+
+function attachSignin(element) {
+    console.log(element.id)
+    auth2.attachClickHandler(element, {},
+        function (googleUser) {
+            onSignIn(googleUser)
+        }, function (error) {
+            alert(JSON.stringify(error, undefined, 2))
+        })
+}
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.')
+    })
 }
 
 
-function logout() {
-
-}
+window.onload = startApp()

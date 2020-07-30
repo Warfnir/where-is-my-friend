@@ -6,6 +6,7 @@ from django.forms import ValidationError
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.views import View
+from django.http import HttpResponse
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -72,7 +73,7 @@ def login_with_google_view(request):
         
         # User exists then log in
         login(request, user)
-        return redirect('index')
+        return HttpResponse(status=200)
         # User does not exists -> create new account
     except ValueError:
         # Invalid token
@@ -82,7 +83,6 @@ def login_with_google_view(request):
         user_info['email'] = idinfo['email']
         user_info['name'] = idinfo['given_name']
         user_info['surname'] = idinfo['family_name']
-        return redirect('register')
-
+        return HttpResponse(user_info, status=302)
 
 
