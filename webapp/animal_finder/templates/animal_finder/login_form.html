@@ -1,7 +1,7 @@
 <div class="popup" id="loginPopup" style="display: none;">
     <div class="overlay" onclick="openLoginWindow()"></div>
     <div class="content">
-        <form action="/login/" method="POST">
+        <form action="{% url 'login' %}" method="POST">
             {% csrf_token %}
             <div class="container">
                 <ul>
@@ -12,13 +12,9 @@
 
         </form>
         <p>or</p>
-        
-        <!-- <div id="customBtn" class="customGPlusSignIn">
-            <span class="icon"></span>
-            <span class="buttonText">Google</span>
-          </div> -->
-          <div class="g-signin2" id="customBtn"></div>
-        
+
+        <div class="g-signin2" id="customBtn"></div>
+
         <a href="#register">Or register now!</a>
     </div>
 </div>

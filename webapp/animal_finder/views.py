@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.views.decorators.http import require_POST
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.forms import ValidationError
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
@@ -74,15 +74,20 @@ def login_with_google_view(request):
         # User exists then log in
         login(request, user)
         return HttpResponse(status=200)
-        # User does not exists -> create new account
     except ValueError:
         # Invalid token
         pass
+    # User does not exists -> create new account
     except models.MyUser.DoesNotExist:
-        user_info = {}
-        user_info['email'] = idinfo['email']
-        user_info['name'] = idinfo['given_name']
-        user_info['surname'] = idinfo['family_name']
+        response = {}
+        response['email'] = idinfo['email']
+        response['name'] = idinfo['given_name']
+        response['surname'] = idinfo['family_name']
+        response['redirect_url'] = reverse('register')
         return HttpResponse(user_info, status=302)
 
 
+
+def logout_view(request):
+    logout(request)
+    return redirect('index')

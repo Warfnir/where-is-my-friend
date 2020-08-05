@@ -47,8 +47,12 @@ function onSignIn(googleUser) {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('X-CSRFToken', csrf_token)
     xhr.onload = function () {
-        console.log(xhr.responseText, xhr.status);
-        // window.location.reload()
+        if(xhr.status==200){
+            window.location.reload()
+        }
+        else if(xhr.status==302){
+            console.log(xhr.responseText)
+        }
     };
     xhr.send('idtoken=' + id_token);
 }
