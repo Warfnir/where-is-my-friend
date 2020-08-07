@@ -139,3 +139,5 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = 'animal_finder.MyUser'
+
+LOGIN_URL = '/'

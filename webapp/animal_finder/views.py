@@ -7,6 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.views import View
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -28,7 +29,7 @@ class RegisterView(View):
 
     def get(self, request):
         form = self.register_form()
-        return render(request, self.template_name, {'form':form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = self.register_form(request.POST)
@@ -77,9 +78,9 @@ def login_with_google_view(request):
 
         # idinfo['sub']
         email = idinfo['email']
-        
+
         user = models.MyUser.objects.get(email=email)
-        
+
         # User exists then log in
         login(request, user)
         return HttpResponse(status=200)
@@ -96,7 +97,11 @@ def login_with_google_view(request):
         return HttpResponse(user_info, status=302)
 
 
-
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+
+@login_required
+def profile_view(request):
+    return render(request, 'animal_finder/profile.html')

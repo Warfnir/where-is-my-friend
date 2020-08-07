@@ -22,7 +22,7 @@
             <li><button onclick="openLoginWindow()">Login</button></li>
             {% else %}
 
-            <li><a href="#mysite">Profile</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
             <li>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
@@ -38,7 +38,7 @@
 <!-- MAIN CONTENT -->
 {% block main %}
 {% endblock %}
-{% lorem 10 p %}
+
 
 {% include 'animal_finder/login_form.html' %}
 
