@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from datetime import date
 
 # Create your models here.
 
@@ -81,7 +82,18 @@ class MyUser(AbstractBaseUser):
         return self.is_admin
 
 
-class GoogleAuth(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    sub = models.CharField(max_length=255, unique=True)
+class Animal(models.Model):
+    owner = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    birthday = models.DateField()
+    # TODO: add image field
     
+    @property
+    def age(self):
+        today = date.today()
+        years_old = today.year - self.birthday.year
+        if today.month - self.birthday.month < 0:
+            years_old -= 1
+        elif today.day - self.birthday.day < 0:
+            years_old -= 1
+        return years_old

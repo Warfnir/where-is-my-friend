@@ -1,9 +1,46 @@
 {% extends 'animal_finder/index.html' %}
 
 {% block main %}
-    <h1>PROFILE</h1>
-    {{user}}
-    {{user.name}}
-    {{user.surname}}
-    {{user.password}}
+<div class="container">
+
+    <h1>User data</h1>
+    <p>Email: {{user.email}}</p>
+
+    <p>Name and forname: {{user.name}} {{user.surname}}</p>
+    <p>Phone:</p>
+    <p>Country:</p>
+    <p>City:</p>
+    <p>Street:</p>
+
+
+    {% if animals %}
+    <h1>Animals owned</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Photo</th>
+            <th>Status</th>
+        </tr>
+        {% for animal in animals %}
+        <tr>
+            <td>
+                <p>{{animal.name}}</p>
+            </td>
+            <td>
+                <p>{{animal.age}}</p>
+            </td>
+            <td>IMAGE</td>
+            <td>Home/Missing ;(</td>
+        </tr>
+
+        {% endfor %}
+        {% else %}
+        <h1>Looks like you didn't add your animals yet, you can do it with the button below ;)</h1>
+
+        {% endif %}
+        
+    </table>
+    <button disabled="disabled">+ add animal</button>
+</div>
 {% endblock %}

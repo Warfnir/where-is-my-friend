@@ -3,6 +3,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from animal_finder.models import MyUser
+from animal_finder.models import Animal
 from animal_finder.forms import UserChangeForm, UserCreationForm
 
 # Register your models here.
@@ -40,3 +41,5 @@ admin.site.register(MyUser, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)
+
+admin.site.register(Animal)

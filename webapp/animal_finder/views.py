@@ -104,4 +104,8 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    return render(request, 'animal_finder/profile.html')
+    context = dict()
+    user = request.user
+    animals = models.Animal.objects.filter(owner=user)
+    context['animals'] = animals
+    return render(request, 'animal_finder/profile.html', context)
