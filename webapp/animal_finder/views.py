@@ -24,12 +24,21 @@ def index_view(request):
 
 class RegisterView(View):
     template_name = 'animal_finder/register.html'
+    register_form = forms.RegisterForm
 
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+    def get(self, request):
+        form = self.register_form()
+        return render(request, self.template_name, {'form':form})
 
     def post(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        form = self.register_form(request.POST)
+        print("EHR")
+        if form.is_valid():
+            print("VALID")
+            form.save()
+            return redirect('index')
+        else:
+            return render(request, self.template_name, {'form': form})
 
 
 @require_POST

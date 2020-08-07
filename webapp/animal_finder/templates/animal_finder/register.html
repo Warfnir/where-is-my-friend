@@ -3,9 +3,36 @@
 {% block main %}
     <form action="{% url 'register' %}" method="post">
         {% csrf_token %}
-        <input type="email" name="email" id="input_register_email">
-        <input type="password" name="password" id="input_register_password1">
-        <input type="password" name="repeat_password" id="input_register_password2">
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            {{form.email.errors}}
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{form.name.errors}}
+            <label for="{{ form.name.id_for_label }}">Name:</label>
+            {{ form.name }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{form.surname.errors}}
+            <label for="{{ form.surname.id_for_label }}">Surname:</label>
+            {{ form.surname }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{form.password1.errors}}
+            <label for="{{ form.password1.id_for_label }}">Password:</label>
+            {{ form.password1 }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{form.password2.errors}}
+            <label for="{{ form.password1.id_for_label }}">Repeat password:</label>
+            {{ form.password2 }}
+        </div>
         <button type="submit">Register</button>
     </form>
 {% endblock %}
