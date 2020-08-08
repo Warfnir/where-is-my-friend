@@ -8,6 +8,7 @@ from django.conf import settings
 from django.views import View
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -33,9 +34,7 @@ class RegisterView(View):
 
     def post(self, request, *args, **kwargs):
         form = self.register_form(request.POST)
-        print("EHR")
         if form.is_valid():
-            print("VALID")
             form.save()
             return redirect('index')
         else:
@@ -104,8 +103,33 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    context = dict()
+    context = {}
     user = request.user
     animals = models.Animal.objects.filter(owner=user)
     context['animals'] = animals
     return render(request, 'animal_finder/profile.html', context)
+
+
+class AddAnimalView(LoginRequiredMixin,View):
+    add_animal_form = forms.AddAnimalForm
+    template_name = 'animal_finder/add_animal.html'
+
+    def get(self,request):
+        context = {}
+        context['form'] = self.add_animal_form()
+        return render(request, self.template_name, context)
+    
+    def post(self, request,*args, **kwargs):
+        print(request, args, kwargs)
+        print(request.POST)
+        form = self.add_animal_form(request.POST)
+        print("here22")
+        if form.is_valid():
+            print("HERE valid")
+            animal = form.save(commit=False)
+            animal.owner = request.user
+            animal.save()
+            return redirect('profile')
+        else:
+            print("HERE notvalid")
+            return render(request, self.template_name, {'form':form})

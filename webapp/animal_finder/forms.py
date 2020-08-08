@@ -6,7 +6,17 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.password_validation import validate_password
 
-from animal_finder.models import MyUser
+from animal_finder.models import MyUser, Animal
+
+
+class AddAnimalForm(forms.ModelForm):
+    class Meta:
+        model = Animal
+        fields = ['name', 'birthday']
+        widgets = {
+            'birthday': forms.DateInput(format='%d-%m-%Y', attrs={'class':'datepicker'}),
+        }
+        # TODO add image field and others required
 
 
 class LoginForm(forms.Form):
@@ -17,24 +27,14 @@ class LoginForm(forms.Form):
 
 
 class RegisterForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput, min_length=8)
+    password1 = forms.CharField(
+        label='Password', widget=forms.PasswordInput, min_length=8)
     password2 = forms.CharField(
         label='Password confirmation', widget=forms.PasswordInput, min_length=8)
 
     class Meta:
         model = MyUser
         fields = ('email', 'name', 'surname')
-
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     email = cleaned_data.get("email")
-    #     user = MyUser.objects.filter(email=email)
-    #     print(cleaned_data, email, user)
-    #     if user.exists():
-    #         print("exists")
-    #         raise forms.ValidationError("Email already taken.")
-    #     print("went good")
-    #     return cleaned_data
 
     def clean_email(self):
         email = self.cleaned_data['email']
